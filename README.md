@@ -10,7 +10,9 @@ Anyone working with technology that requires investigation of battery thermal sa
 
 ## Requirements
 
-(bold) The data used in the paper is confidential and cannot be shared. To use this code for fitting ARC (Accelerating Rate Calorimetry) data, provide a file with 3 columns: time (in seconds), temperature (in K)(check) and temperature rate (in K/s)
+**The data used in the paper is confidential and cannot be shared.**
+
+To use this code for fitting ARC (Accelerating Rate Calorimetry) data, provide a file with 3 columns: time (in seconds), temperature (in K)(check) and temperature rate (in K/s)
 
 The libraries required to run the code are listed in the requirements.txt.
 
