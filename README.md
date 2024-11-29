@@ -1,4 +1,9 @@
-# CRNN_ARC
-Fitting Accelerating Rate Calorimetry (ARC) data to Arrhenius ODE models using Chemical Reaction Neural Networks
+# Tackling Battery Thermal Overheating using AI and simulation
+Advances in electrification and energy storage have changed the way we work, communicate, and commute; and these changes are only getting more omnipresent and far-reaching. One way these changes have been effected in the world is through batteries; they serve as standardized, dense mediums of energy storage and transport.
+Unfortunately, as humanity's use of batteries has got more ambitious and ubiquitous (electric planes?) the world has observed increasing incidents of serious battery fires that have destroyed the devices they were used in (think small phones to EVs and even aircraft). This phenomenon is called thermal runaway (link) and seriously affects public confidence in the technology and decreases the rate of adoption. Turns out, depending on their internal chemistries, batteries can be HIGHLY combustible. 
 
-The ARC data for this is confidential. This code can be tested with other ARC datasets.
+The way around this is to introduce design variations in battery packs that reduce the risk of thermal runaway. Now to make this design process commercially viable, pack designers can not afford to blow up 100s of millions of dollars worth of battery packs during the design phase to ensure thermal safety; this is where simulation comes in! Battery designs can be simulated on computers instead of in the real world, saving tens of thousands of dollars per battery pack tested. However, this requires accurate thermal models of the battery in question to run in the simulation. Wouldn't it be great if we could come up with models that exactly replicate the real-world thermal behaviour of batteries? 
+
+We can now use artificial intelligence to learn accurate battery thermal runaway models that can be used to predict if batteries will catch fire in a given design configuration under stressful conditions. 
+
+
