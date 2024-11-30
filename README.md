@@ -36,19 +36,32 @@ https://doi.org/10.1016/j.jpowsour.2024.235834.
 Advances in electrification and energy storage have changed the way we work, communicate, and commute; and these changes are only getting more omnipresent and far-reaching. One way these changes have been effected in the world is through batteries; they serve as standardized, dense mediums of energy storage and transport.
 Unfortunately, as humanity's use of batteries has got more ambitious and ubiquitous (electric planes?) the world has observed increasing incidents of serious battery fires that have destroyed the devices they were used in (think small phones to EVs and even aircraft). This phenomenon is called thermal runaway (link) and seriously affects public confidence in the technology and decreases the rate of adoption. Turns out, depending on their internal chemistries, batteries can be HIGHLY combustible. In a controlled environment, a battery's temperature during thermal runaway can spike like this:
 
-![Screenshot1](images/time_temp.png)
+<p align='center'>
+<img src=images/time_temp.png width="400">
+</p>
 
 The way around this is to introduce design variations in battery packs that reduce the risk of thermal runaway. To make this design process commercially viable, pack designers can not afford to blow up 100s of millions of dollars worth of battery packs during the design phase to ensure thermal safety; this is where simulation comes in! Battery designs can be simulated on computers instead of in the real world, saving tens of thousands of dollars per battery pack tested. However, this requires accurate thermal models of the battery in question to run in the simulation. Wouldn't it be great if we could come up with models that exactly replicate the real-world thermal behaviour of batteries? It has been tried in the past, but those methods relied on concepts like linear regression and resulted in fits that looked like this:
 
-![Elements](images/check_temp_before_2_stage.png) ![Screenshot3](images/check_rate_before_2_stage.png)
+<p align='center'>
+<img src=images/check_temp_before_2_stage.png width="400">
+ <img src=images/check_rate_before_2_stage.png width="400">
+</p>
 
-Clearly not a good fit to the experimental data! The obtained model is not representative of the physics of battery thermal runaway. We can now use artificial intelligence to learn accurate battery thermal runaway models that can be used to predict if batteries will catch fire in a given design configuration under stressful conditions. The code in this repository can be used to create AI models that fit accurate, physically consistent thermal runaway models based on Arrhenius Ordinary Differential Equations (ODEs) to calorimetry data, which represents the most common way thermal runaway models for battery cells have been (attempted to be) created in past decades, minus the AI part. The model architecture is depicted in the following figure
+Clearly not a good fit to the experimental data! The obtained model is not representative of the physics of battery thermal runaway. We can now use artificial intelligence to learn accurate battery thermal runaway models that can be used to predict if batteries will catch fire in a given design configuration under stressful conditions. The code in this repository can be used to create AI models that fit accurate, physically consistent thermal runaway models based on Arrhenius Ordinary Differential Equations (ODEs) to calorimetry data, which represents the most common way thermal runaway models for battery cells have been (attempted to be) created in past decades, minus the AI part. The model architecture is depicted in the following figures
 
-![Screenshot4](images/crnn_stage_i_diagram.PNG)
+<p align='center'>
+<img src=images/crnn_stage_i_diagram.PNG width="400">
+ <img src=images/temp_CRNN_workflow.PNG width="600">
+</p>
 
-This results in thermal runaway models that are much better at predicting the physics of thermal runaway
 
-![Screenshot4](images/check_rate_after_2_stage.png) ![Screenshot5](images/check_temp_after_2_stage.png)
+The left figure shows a single submodel, and the figure on the right shows how these submodels are integrated into the training loop. Further details are available in the published paper. This results in thermal runaway models that are much better at predicting the physics of thermal runaway! Shown below are the fits from the AI models:
+
+<p align='center'>
+<img src=images/check_temp_after_2_stage.png width="400">
+ <img src=images/check_rate_after_2_stage.png width="400">
+</p>
+
 
 These models can then be plugged into broader 3D numerical simulations of the real world, allowing battery design without blowing up a single real cell!
 
