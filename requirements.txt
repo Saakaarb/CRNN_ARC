@@ -1,0 +1,7 @@
+numpy
+matplotlib
+jax
+equinox
+diffrax
+optax
+scikit-learn
