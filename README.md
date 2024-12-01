@@ -55,7 +55,7 @@ Clearly not a good fit to the experimental data! The obtained model is not repre
 </p>
 
 
-The left figure shows a single submodel, and the figure on the right shows how these submodels are integrated into the training loop. Further details are available in the published paper. This results in thermal runaway models that are much better at predicting the physics of thermal runaway! Shown below are the fits from the AI models:
+The first figure shows a single submodel, and the second figure shows how these submodels are integrated into the training loop. Further details are available in the published paper. This results in thermal runaway models that are much better at predicting the physics of thermal runaway! Shown below are the fits from the AI models:
 
 <p align='center'>
 <img src=images/check_temp_after_2_stage.png width="400">
@@ -65,7 +65,11 @@ The left figure shows a single submodel, and the figure on the right shows how t
 
 These models can then be plugged into broader 3D numerical simulations of the real world, allowing battery design without blowing up a single real cell!
 
- ![Screenshot5](images/heated_cell.png)
+<p align='center'>
+<img src=images/heated_cell.png width="200">
+ <img src=images/4_stage_acusolve.png width="200">
+</p>
+
 
 
 
