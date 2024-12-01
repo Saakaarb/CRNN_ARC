@@ -67,7 +67,7 @@ These models can then be plugged into broader 3D numerical simulations of the re
 
 <p align='center'>
 <img src=images/heated_cell.png width="200">
- <img src=images/4_stage_acusolve.png width="200">
+ <img src=images/4_stage_acusolve.png width="600">
 </p>
 
 
