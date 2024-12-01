@@ -63,7 +63,7 @@ The first figure shows a single submodel, and the second figure shows how these 
 </p>
 
 
-These models can then be plugged into broader 3D numerical simulations of the real world, allowing battery design without blowing up a single real cell!
+These models can then be plugged into broader 3D numerical simulations of the real world, allowing battery design without blowing up a single real cell! The plot below shows the comparison of the simulated temperature (in a 3D simulation) of a thermal runaway test of a battery to experimental data from a thermocouple; the simulation shows excellent agreement with real-world data.
 
 <p align='center'>
 <img src=images/heated_cell.png width="200">
