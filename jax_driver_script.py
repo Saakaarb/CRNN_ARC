@@ -134,12 +134,11 @@ def preprocess_data(time_arc,Temperature_all,Q_exo_all,fit_start_temp):
     time_arc=time_arc-time_arc[0]
    
     return time_arc,Temperature_all,Temp_arc,Q_exo_all
-#@jax.jit
+
 def scale_val(val,min_val,max_val):
 
     return 2.0*((val-min_val)/(max_val-min_val))-1.0
 
-#@jax.jit
 def unscale_val(val,min_val,max_val):
 
     return (1.0+val)*(max_val-min_val)/2.0+min_val
@@ -196,7 +195,7 @@ class stage():
 
 
 
-# construct ODE function
+# construct ODE function (unique to two stage model)
 # Arguments: 
 # t: float (time)
 # c: array (c1,c2,Temp)
@@ -208,6 +207,9 @@ def ode_fn(t,c,other_inputs_dict):
     all_vars=other_inputs_dict['all_vars']
 
     n_stages=constants['num_stages']
+    mass=constants['mass']
+    eps=constants['eps']
+    Cp=constants['Cp']
 
     c1=c[0] # concentration of first stage
     c2=c[1] # concentration of second stage
@@ -229,16 +231,17 @@ def ode_fn(t,c,other_inputs_dict):
     unscaled_n2=unscale_val(all_vars['n2'],constants['min_n'],constants['max_n'])
     #--------
 
+    # construct derivative terms particular to two stage model
     deriv1 = - jnp.power(c1,all_vars['n1'])*unscaled_A1*jnp.exp(-unscaled_Ea1/Temp) # m1=0, n1=1
-    deriv_T= -unscaled_h1*deriv1/(constants['Cp']*constants['mass'])
+    deriv_T= -unscaled_h1*deriv1/(Cp*mass)
     
     deriv2= jnp.power(c2,unscaled_n2)*jnp.power(1.0-c2,unscaled_m2)*unscaled_A2*jnp.exp(-unscaled_Ea2/Temp) # n2=0
-    deriv_T+= unscaled_h2*deriv2/(constants['Cp']*constants['mass'])
+    deriv_T+= unscaled_h2*deriv2/(Cp*mass)
 
     # include heat flux due to external factors
     T_inf=jnp.interp(t,constants['t_data'],constants['T_data'])
     h_conv=0.94115*(jnp.abs(T_inf-Temp)/0.07)**0.35
-    Qdiss=constants['Acell']*(h_conv*(T_inf-Temp)+constants['eps']*constants['sigma']*(jnp.power(T_inf,4)-jnp.power(Temp,4)))/(constants['Cp']*constants['mass']) 
+    Qdiss=constants['Acell']*(h_conv*(T_inf-Temp) + eps*constants['sigma']*(jnp.power(T_inf,4)-jnp.power(Temp,4)))/(Cp*mass) 
     deriv_T+=Qdiss
     return jnp.stack([deriv1,deriv2,deriv_T])
   
@@ -253,9 +256,11 @@ def get_dTdt_loss(constants,all_vars):
     # start and end times
     t_init=constants['t_data'][0]
     t_end=constants['t_data'][-1]
+    
+    # initial condition
+    y_init=jnp.array([1.0,0.04,397.0])
 
-    y_init=jnp.array([1.0,0.04,397.0])#constants['c_init']
-
+    # save at same time stamps as data
     saveat = diffrax.SaveAt(ts=constants['t_data'])
     term=diffrax.ODETerm(ode_fn)
     solution=diffrax.diffeqsolve(term,diffrax.Kvaerno5(),t0=t_init,t1=t_end,dt0 = 1.0,y0=y_init,max_steps=100000,saveat=saveat,args={'constants':constants,'all_vars':all_vars},stepsize_controller=diffrax.PIDController(pcoeff=0.3,icoeff=0.4,rtol=1e-8, atol=1e-8,dtmin=None))
@@ -293,8 +298,6 @@ def main(constants,all_vars,trainable_variable_names,n_iters):
     # the optimizer tracks the variables 
     opt_state=optimizer.init(train_val_dict)
 
-    #plot_solution(constants,label='before_'+str(unscale_val(constants['m2'],constants['min_m'],constants['max_m']))+"_"+str(unscale_val(constants['n2'],constants['min_n'],constants['max_n'])))
-
 
     # run iterations
     for i in range(n_iters):
@@ -321,12 +324,11 @@ def main(constants,all_vars,trainable_variable_names,n_iters):
         # update variable list tracked by optimizer
         train_val_dict.update(results)
 
-    #plot_solution(constants,label='after_'+str(unscale_val(constants['m2'],constants['min_m'],constants['max_m']))+"_"+str(unscale_val(constants['n2'],constants['min_n'],constants['max_n'])))
     plt.plot(loss_hist)
     plt.savefig('loss_plot.png')
     plt.close()
 
-    return value,constants
+    return value,all_vars
 
 if __name__=="__main__":
 
@@ -432,6 +434,8 @@ if __name__=="__main__":
         all_vars['n'+stage_no]=stage_obj.n
 
 
-    loss_val,params=main(constants,all_vars,trainable_variable_names,n_iters)
+    loss_val,trained_vars=main(constants,all_vars,trainable_variable_names,n_iters)
 
+
+    print("Fitted Parameters:",trained_vars)
 
