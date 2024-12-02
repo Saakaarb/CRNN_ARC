@@ -6,7 +6,7 @@ Thermal runaway leads to battery fires in EVs, and needs to be modeled accuratel
 
 ## Who this work benefits
 
-Anyone working with technology that requires investigation of battery thermal safety within their application: from smartphone designers to EV battery manufacturers and aircraft designers, and would like to apply modeling and simulation for their analysis. More broadly, the work will also benefit anyone looking to fit ODEs to (irregularly sampled) time series data and wants an understanding of how Neural ODEs can be applied to similar problems.
+Anyone working with technology that requires investigation of battery thermal safety within their application: from smartphone designers to EV battery manufacturers and aircraft designers, and would like to apply modeling and simulation for their analysis. Technically speaking, the work will benefit anyone looking to fit Ordinary Differential Equations to (irregularly sampled) time series data and wants an understanding of how Neural ODEs can be applied to similar problems.
 
 ## Requirements
 
