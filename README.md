@@ -1,4 +1,4 @@
-# Tackling battery thermal fires using AI and simulation
+# Tackling EV battery fires using AI and simulation
 
 ## The problem in a couple of sentences 
 
